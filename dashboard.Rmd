@@ -1,0 +1,42 @@
+---
+title: "video game stats"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+##
+# Authors: Justin Hathaway, Jenkin Schibel, Anthony Moran
+##
+
+# Take in our csv file and create a dataframe
+games <- read.csv("games.csv", header=TRUE)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r,fig.width=10,fig.height=7}
+plot(games$Platform)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+
+```
+
+### Chart C
+
+```{r}
+
+```
+

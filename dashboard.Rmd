@@ -14,6 +14,13 @@ library(flexdashboard)
 
 # Take in our csv file and create a dataframe
 games <- read.csv("games.csv", header=TRUE)
+data(games)
+```
+
+Column {.sidebar}
+------------------------------------
+```{r}
+selectInput("x_parameter",label = "value for the x parameter", choices=c("year_of_release","User_score","User_count"),selected = "User_score")
 ```
 
 Column {data-width=650}
@@ -21,8 +28,8 @@ Column {data-width=650}
 
 ### Chart A
 
-```{r,fig.width=10,fig.height=7}
-plot(games$Platform)
+```{r}
+plot(x_parameter)
 ```
 
 Column {data-width=350}

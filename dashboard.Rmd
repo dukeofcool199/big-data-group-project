@@ -4,10 +4,14 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(shiny)
+library(datasets)
+#data(faithful)
 ##
 # Authors: Justin Hathaway, Jenkin Schibel, Anthony Moran
 ##
@@ -18,32 +22,30 @@ data(games)
 ```
 
 Column {.sidebar}
-------------------------------------
-```{r}
-selectInput("x_parameter",label = "value for the x parameter", choices=c("year_of_release","User_score","User_count"),selected = "User_score")
-```
-
-Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+Waiting time between eruptions and the duration of the eruption for the
+Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
 
 ```{r}
-plot(x_parameter)
+selectInput("n_breaks", label = "some stuff:",
+            choices = c(10, 20, 35, 50), selected = 20)
+
+sliderInput("bw_adjust", label = "Bandwidth adjustment:",
+            min = 0.2, max = 2, value = 1, step = 0.2)
 ```
 
-Column {data-width=350}
+Column
 -----------------------------------------------------------------------
 
-### Chart B
+### Geyser Eruption Duration
 
 ```{r}
-
+renderPlot({
+  hist(faithful$er, probability = TRUE, breaks = as.numeric(input$n_breaks),
+       xlab = "publisher sales per platform", main = "number of games sold per console by publisher")
+  
+  dens <- density(count(games$Platform), adjust = games$Publisher)
+  lines(dens, col = "blue")
+})
 ```
-
-### Chart C
-
-```{r}
-
-```
-

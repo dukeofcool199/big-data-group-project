@@ -19,17 +19,17 @@ library(datasets)
 # Take in our csv file and create a dataframe
 games <- read.csv("games.csv", header=TRUE)
 data(games)
+attach(games)
 ```
 
 Column {.sidebar}
 -----------------------------------------------------------------------
 
-Waiting time between eruptions and the duration of the eruption for the
-Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
+Global video game sales based on consoles based on ESRB rating
 
 ```{r}
-selectInput("n_breaks", label = "some stuff:",
-            choices = c(10, 20, 35, 50), selected = 20)
+selectInput("type", label = "ESRB rating:",
+            choices = c('Platform','Rating'), selected = "Rating")
 
 sliderInput("bw_adjust", label = "Bandwidth adjustment:",
             min = 0.2, max = 2, value = 1, step = 0.2)
@@ -42,10 +42,7 @@ Column
 
 ```{r}
 renderPlot({
-  hist(faithful$er, probability = TRUE, breaks = as.numeric(input$n_breaks),
-       xlab = "publisher sales per platform", main = "number of games sold per console by publisher")
+ plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of Games", xlab="Copies Sold (in millions)")
   
-  dens <- density(count(games$Platform), adjust = games$Publisher)
-  lines(dens, col = "blue")
-})
+  })
 ```

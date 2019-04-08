@@ -1,0 +1,52 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+source("functions.r")
+games <- LoadMyData() # Call the function in functions.r to load our data
+
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+
+# Sidebar with a slider input for number of bins 
+   sidebarLayout(
+      sidebarPanel(
+         fluidPage(checkboxGroupInput("variable", "Selected Genres:",
+                     c("Action" = "Action",
+                       "Adventure" = "Adventure",
+                       "Fighting" = "Fighting",
+                       "Misc" = "Misc",
+                       "Platform" = "Platform",
+                       "Puzzle" = "Puzzle",
+                       "Racing" = "Racing",
+                       "Role-Playing" = "Role-Playing",
+                       "Shooter" = "Shooter",
+                       "Simulation" = "Simulation",
+                       "Sports" = "Sports",
+                       "Strategy" = "Strategy"),
+                     selected = c("Action","Adventure","Fighting","Misc","Platform","Puzzle","Racing","Role-Playing","Shooter","Simulation","Sports","Strategy")))
+      ),
+      
+      # Show a plot of the generated distribution
+      mainPanel(
+        renderPlot(plot_1(games[which(games$Genre == input$variable), ]), height=500)
+      )
+   )
+
+
+
+
+```
+

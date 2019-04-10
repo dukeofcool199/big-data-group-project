@@ -59,16 +59,15 @@ renderPlot({
 Row
 -----------------------------------------------------------------------
 
-###Global Video game sales and stuff
+###Global Video game sales and stuff number 3
 
 ```{r}
 renderPlot({
  plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of copies sold (millions)", xlab=input$type)
-  
   })
 ```
 
-###Global Video game sales and stuff number 2
+###Global Video game sales and stuff number 4
 
 ```{r}
 renderPlot({

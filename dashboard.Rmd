@@ -30,9 +30,9 @@ Global video game sales based on consoles based on ESRB rating
 ```{r}
 selectInput("type", label = "global sales display selection",
             choices = c(names(games)), selected = "Rating")
+selectInput("lm_1", label = "lhs of linear model", choices = c(names(games)), selected = "Rating")
+selectInput("lm_2", label = "rhs of linear model", choices = c(names(games)), selected = "User_Score")
 
-sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-            min = 0.2, max = 2, value = 1, step = 0.2)
 ```
 
 Row
@@ -47,31 +47,16 @@ renderPlot({
   })
 ```
 
-###Global Video game sales and stuff number 2
+###Linear model 1
 
 ```{r}
+
 renderPlot({
- plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of copies sold (millions)", xlab=input$type)
+ plot(y=eval(as.symbol(input$lm_1)), x=eval(as.symbol(input$lm_2)), main="linear regression", col="blue",ylab=input$lm_1, xlab=input$lm_2)
   
+ lm.fit = lm(eval(as.symbol((input$lm_1))) ~ eval(as.symbol((input$lm_2))))
+ 
+ abline(lm.fit)
   })
 ```
 
-Row
------------------------------------------------------------------------
-
-###Global Video game sales and stuff number 3
-
-```{r}
-renderPlot({
- plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of copies sold (millions)", xlab=input$type)
-  })
-```
-
-###Global Video game sales and stuff number 4
-
-```{r}
-renderPlot({
- plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of copies sold (millions)", xlab=input$type)
-  
-  })
-```

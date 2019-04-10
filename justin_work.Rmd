@@ -41,7 +41,7 @@ Column {data-width=650}
       
       # Show a plot of the generated distribution
       mainPanel(
-        renderPlot(plot_1(games[which(games$Genre == input$variable), ]), height=500)
+        renderPlot(plot_1(games[which(games$Genre %in% input$variable), ]), height=500)
       )
    )
 

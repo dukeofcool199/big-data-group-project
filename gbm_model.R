@@ -12,7 +12,7 @@ sample <- sample.int(n = nrow(clean.tree), size = floor(.3*nrow(clean.tree)))
 train <- clean.tree[sample, ]
 test  <- clean.tree[-sample, ]
 
-boost.vg=gbm(NA_Sales ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.tree[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=10)
+boost.vg=gbm(NA_Sales ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.tree[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=8)
 
 tree.pred=predict(boost.vg,newdata=clean.tree[sample,],n.trees=5000)
 head(tree.pred)

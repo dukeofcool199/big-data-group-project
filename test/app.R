@@ -40,15 +40,15 @@ server <- function(input, output) {
      
      clean.omit$User_Score = as.numeric(as.character(clean.omit$User_Score))
      
-     sample <- sample.int(n = nrow(clean.tree), size = floor(.3*nrow(clean.tree)))
-     train <- clean.tree[sample, ]
-     test  <- clean.tree[-sample, ]
+     sample <- sample.int(n = nrow(clean.omit), size = floor(.3*nrow(clean.omit)))
+     train <- clean.omit[sample, ]
+     test  <- clean.omit[-sample, ]
      
-     boost.vg=gbm(NA_Sales ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.tree[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=8)
+     boost.vg=gbm(NA_Sales ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.omit[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=8)
      
      tree.pred=predict(boost.vg,newdata=clean.tree[sample,],n.trees=5000)
      head(tree.pred)
-     head(clean.tree[sample,]$NA_Sales)
+     head(clean.omit[sample,]$NA_Sales)
      summary(boost.vg)
    })
 }

@@ -50,7 +50,7 @@ Row
 
 ```{r}
 renderPlot({
- plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of copies sold (millions)", xlab=input$type)
+ plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of units sold (millions)", xlab=input$type)
   
   })
 ```
@@ -60,7 +60,7 @@ renderPlot({
 ```{r}
 
 renderPlot({
- plot(y=eval(as.symbol(input$lm_1)), x=eval(as.symbol(input$lm_2)), main="linear regression", col="blue",ylab=input$lm_1, xlab=input$lm_2)
+ plot(y=eval(as.symbol(input$lm_1)), x=eval(as.symbol(input$lm_2)), main="linear regression", col="blue",ylab="number of units sold in millions", xlab=input$lm_2)
   
  lm.fit = lm(eval(as.symbol((input$lm_1))) ~ eval(as.symbol((input$lm_2))))
  

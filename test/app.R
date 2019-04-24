@@ -46,7 +46,7 @@ server <- function(input, output) {
      
      boost.vg=gbm(NA_Sales ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.omit[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=8)
      
-     tree.pred=predict(boost.vg,newdata=clean.tree[sample,],n.trees=5000)
+     tree.pred=predict(boost.vg,newdata=clean.omit[sample,],n.trees=5000)
      head(tree.pred)
      head(clean.omit[sample,]$NA_Sales)
      summary(boost.vg)

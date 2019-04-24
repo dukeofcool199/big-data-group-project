@@ -3,7 +3,7 @@ title: "video game stats"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
-    vertical_layout: fill
+    vertical_layout: scroll
 runtime: shiny
 ---
 
@@ -32,31 +32,35 @@ Column {.sidebar}
 Global video game sales based on consoles based on ESRB rating
 
 ```{r}
-selectInput("type", label = "global sales display selection",
-            choices = c(names(games)), selected = "Rating")
-selectInput("lm_1", label = "lhs of linear model", choices = c(names(games)), selected = "Rating")
-selectInput("lm_2", label = "rhs of linear model", choices = c(names(games)), selected = "User_Score")
+sales <- c("NA_Sales","EU_Sales","JP_Sales","Other_Sales","Global_Sales")
+scores <- c("Critic_Score","User_Score")
+score_quantity <- c("Critic_Count","User_Count")
+other <- c("Name","Platform","Year_Of_Release","Genre","Publisher")
 
+selectInput("type", label = "global sales display selection based on other attributes", choices = other, selected = "Rating")
+selectInput("lm_1", label = "sales comparitor of linear model", choices = sales, selected = "Rating")
+selectInput("lm_2", label = "scores selection for linear model", choices = scores, selected = "User_Score")
+selectInput("glm_select", label = "sales type for glm model", choices = sales, selected = "Global_Sales")
 ```
 
 Row
 -----------------------------------------------------------------------
 
-###Global Video game sales and stuff
+###Global Video game sales compares to misc game attributes
 
 ```{r}
 renderPlot({
- plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of copies sold (millions)", xlab=input$type)
+ plot(y=Global_Sales,x=eval(as.symbol(input$type)), main="Global Sales", col="blue",ylab="Number of units sold (millions)", xlab=input$type)
   
   })
 ```
 
-###Linear model 1
+###linear regression model for correlating sales and user or critic scores
 
 ```{r}
 
 renderPlot({
- plot(y=eval(as.symbol(input$lm_1)), x=eval(as.symbol(input$lm_2)), main="linear regression", col="blue",ylab=input$lm_1, xlab=input$lm_2)
+ plot(y=eval(as.symbol(input$lm_1)), x=eval(as.symbol(input$lm_2)), main="linear regression", col="blue",ylab="number of units sold in millions", xlab=input$lm_2)
   
  lm.fit = lm(eval(as.symbol((input$lm_1))) ~ eval(as.symbol((input$lm_2))))
  
@@ -65,7 +69,7 @@ renderPlot({
 ```
 
 
-###GLM model
+###GLM model for showing levels of influence on game sales
 ```{r}
 renderPlot({
      library(gbm)
@@ -83,7 +87,7 @@ renderPlot({
      train <- clean.omit[sample, ]
      test  <- clean.omit[-sample, ]
      
-     boost.vg=gbm(NA_Sales ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.omit[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=8)
+     boost.vg=gbm(eval(as.symbol((input$glm_select))) ~ Genre + Platform + Developer + Publisher + User_Score + Critic_Score, data=clean.omit[-sample,], distribution="gaussian",n.trees=5000,interaction.depth=8)
      
      tree.pred=predict(boost.vg,newdata=clean.omit[sample,],n.trees=5000)
      head(tree.pred)
